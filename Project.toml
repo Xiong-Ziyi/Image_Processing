@@ -1,4 +1,5 @@
 [deps]
+FourierTools = "b18b359b-aebc-45ac-a139-9c0ccbb2871e"
 ImageFiltering = "6a3955dd-da59-5b1f-98d4-e7296123deb5"
 ImageShow = "4e3cecfd-b093-5904-9786-8bbb286a6a31"
 Images = "916415d5-f1e6-5110-898d-aaa5f9f070e0"
