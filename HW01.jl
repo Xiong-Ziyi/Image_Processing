@@ -68,18 +68,26 @@ Codewords: **Julia, random, random normal distribution**
 "
 
 # ╔═╡ de104b0a-28a4-42de-ae8d-fa857a8f32e0
-"""
-	add_gauss_noise(img, σ=1)
-
-This function adds normal distributed noise to `img`.
-`σ` is an optional argument
-"""
-function add_gauss_noise(img, σ=one(eltype(img)))
-	for i in 1:length(img)
-		img[i] += σ * randn()
+begin
+	"""
+		add_gauss_noise(img, σ=1)
+	
+	This function adds normal distributed noise to `img`.
+	`σ` is an optional argument
+	
+	function add_gauss_noise(img, σ=one(eltype(img)))
+		for i in 1:length(img)
+			img[i] += σ * randn()
+		end
+		return img
 	end
-	return img
-end		
+	"""
+	
+	function add_gauss_noise(img, σ = one(eltype(img)))
+		img += σ * randn(size(img))
+		return img
+	end
+end
 
 # ╔═╡ f89bc1e4-d406-4550-988b-71496b64035a
 md"
@@ -320,8 +328,8 @@ Try to preserve the image output size. Assign the median to this pixel.
 
 # ╔═╡ 7bc0f845-d5d4-4192-be1d-b97750e95761
 function median_noise_remove!(arr; kernel_size=(5,5))
-	filtered_arr = mapwindow(median, arr, kernel_size)
-	return filtered_arr
+	arr .= mapwindow(median, arr, kernel_size, border=Fill(img[2]))
+	return arr
 end
 
 # ╔═╡ ac6e7ea7-c277-4180-a809-a37531ab4f11
