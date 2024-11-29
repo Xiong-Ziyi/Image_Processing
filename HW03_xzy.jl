@@ -261,7 +261,7 @@ begin
 end
 
 # ╔═╡ 481961ac-ad7c-4768-a7aa-eed34143226b
-ffts(x) = fftshift(x)# TODO
+ffts(x) = fft(fftshift(x)) # TODO
 
 # ╔═╡ fc3bb52b-f9a2-42c0-b34b-347d0a137e2d
 ffts(data_even)
@@ -278,7 +278,7 @@ Check out `ifftshift`.
 "
 
 # ╔═╡ deb9eaf0-ee89-49c5-90b8-570d1a88f8fc
-iffts(x) = ifftshift(x) # TODO
+iffts(x) = ifftshift(ifft(x)) # TODO
 
 # ╔═╡ 2875999a-a61d-491a-8a42-0552a87d3c6a
 md"""
@@ -578,9 +578,9 @@ Procedure:
 
 # ╔═╡ 2a48072b-fc5a-4044-9aa9-5661483ffbfc
 function frequency_filter(img, radius)
-	fimg = fft(img)
-	cut_fimg = circ(size(fimg), radius)
-	rimg = ifft(cut_fimg)
+	fimg = ft(img)
+	cut_fimg = fimg .* circ(size(fimg), radius)
+	rimg = ift(cut_fimg)
 	return real(rimg)
 end
 
@@ -675,12 +675,15 @@ julia> undersample([1,2,3,4,5,6,7,8,9,10], 4)
 ```
 """
 function undersample(x, factor)
+	"""
 	num_x = Int(ceil.(length(x) ./ factor))
 	us_x = zeros(num_x)
 	for i in eachindex(us_x)
 		us_x[i] = x[factor * (i - 1) + 1]
 	end
 	return us_x
+	"""
+	return x[1: factor: end]
 end
 
 # ╔═╡ 5f1adf13-342f-473c-923c-1305433359be
